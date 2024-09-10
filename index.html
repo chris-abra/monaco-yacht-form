@@ -155,10 +155,12 @@
     <script>
         document.getElementById('wf-form-Monaco-Yacht').addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Form submitted');
             var form = this;
             var url = 'https://script.google.com/macros/s/AKfycbymHAN-hUxj5JV99l-3DFM5kk1VF7E_tKm9ickMKrOk45gdh9Qt7hMVNCNGrDDtLX7iLQ/exec';
             var email = document.getElementById('email').value;
 
+            console.log('Sending request to:', url);
             fetch(url, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -167,22 +169,28 @@
                 },
                 body: JSON.stringify({email: email})
             }).then(function(response) {
+                console.log('Received response:', response);
                 form.style.display = 'none';
                 document.querySelector('.w-form-done').style.display = 'block';
+                console.log('Success message displayed');
                 
-                // Wait for 5 seconds, then reset the form
+                console.log('Starting 5-second timer');
                 setTimeout(function() {
+                    console.log('5 seconds elapsed, resetting form');
                     form.reset();
                     form.style.display = 'block';
                     document.querySelector('.w-form-done').style.display = 'none';
                     document.getElementById('email').focus();
+                    console.log('Form reset and displayed');
                 }, 5000);
             }).catch(function(error) {
                 console.error('Error:', error);
                 document.querySelector('.w-form-fail').style.display = 'block';
+                console.log('Error message displayed');
                 
-                // If there's an error, also reset after 5 seconds
+                console.log('Starting 5-second timer for error message');
                 setTimeout(function() {
+                    console.log('5 seconds elapsed, hiding error message');
                     document.querySelector('.w-form-fail').style.display = 'none';
                 }, 5000);
             });
