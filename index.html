@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Form Layout</title>
+    <style>
+        @font-face {
+            font-family: 'Stratum';
+            src: url('https://cdn.prod.website-files.com/5f1f059d7acbcc6641620897/6659ff11bb9dc7ffe98d4ce8_Stratum2-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --font--stratum: 'Stratum', sans-serif;
+            --font--tt-supermolot: 'Arial', sans-serif;
+            --white-smoke: #f5f5f5;
+        }
+
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font--tt-supermolot);
+        }
+
+        .section_form {
+            padding-right: 5vw;
+            padding-left: 5vw;
+        }
+
+        .container-small-2 {
+            width: 100%;
+            max-width: 48rem;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .padding-section-small {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        @media (max-width: 767px) {
+            .padding-section-small {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+
+        .stylized-form-label {
+            margin-bottom: 20px;
+            font-family: var(--font--stratum);
+            color: hsla(0, 0%, 100%, 1);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .monaco-form {
+            height: 60px;
+            margin-bottom: 20px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 0px;
+            border: none;
+            border-bottom: 1px solid hsla(0, 0%, 100%, 0.25);
+            background-color: transparent;
+            font-family: var(--font--tt-supermolot);
+            color: hsla(0, 0%, 100%, 1);
+            font-size: 16px;
+            letter-spacing: 0;
+            text-transform: none;
+            width: 100%;
+            transition: border-bottom-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .monaco-form::placeholder {
+            text-transform: none;
+        }
+
+        .monaco-form:focus {
+            border-bottom-color: hsla(0, 0%, 100%, 1);
+            box-shadow: 0 6px 19px -10px hsla(0, 0%, 0%, 0.27);
+            outline: none;
+        }
+
+        .form-submit-large {
+            width: 100%;
+            height: 80px;
+            border: none;
+            border-top: 1px solid hsla(0, 0%, 100%, 1);
+            border-bottom: 1px solid hsla(0, 0%, 100%, 1);
+            background-color: transparent;
+            background-image: url('https://assets.website-files.com/61299e7768e464540ccd9ef9/61299e7768e464540ccd9efa_arrow-right-white.svg');
+            background-position: 95% 50%;
+            background-size: auto;
+            background-repeat: no-repeat;
+            transition: letter-spacing 0.3s ease;
+            font-family: var(--font--stratum);
+            color: var(--white-smoke);
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .form-submit-large:hover {
+            letter-spacing: 0.2rem;
+        }
+
+        .w-form-done, .w-form-fail {
+            padding: 20px;
+            margin-top: 20px;
+            color: white;
+            display: none;
+        }
+
+        .w-form-done {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+
+        .w-form-fail {
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="section_form">
+        <div class="container-small-2">
+            <div class="padding-section-small">
+                <div class="w-form">
+                    <form id="wf-form-Monaco-Yacht" name="wf-form-Monaco-Yacht" data-name="Monaco Yacht">
+                        <label for="email" class="stylized-form-label">Enter Your Email</label>
+                        <input class="monaco-form" maxlength="256" name="email" data-name="Email" placeholder="yourname@domain.com" type="email" id="email" required>
+                        <input type="submit" data-wait="Submitting..." class="form-submit-large" value="Submit">
+                    </form>
+                    <div class="w-form-done" tabindex="-1" role="region" aria-label="Monaco Yacht success">
+                        <div>Thank you! Your submission has been received!</div>
+                    </div>
+                    <div class="w-form-fail" tabindex="-1" role="region" aria-label="Monaco Yacht failure">
+                        <div>Oops! Something went wrong while submitting the form.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('wf-form-Monaco-Yacht').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var url = 'https://script.google.com/macros/s/AKfycbymHAN-hUxj5JV99l-3DFM5kk1VF7E_tKm9ickMKrOk45gdh9Qt7hMVNCNGrDDtLX7iLQ/exec';
+            var email = document.getElementById('email').value;
+
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: email})
+            }).then(function(response) {
+                form.style.display = 'none';
+                document.querySelector('.w-form-done').style.display = 'block';
+            }).catch(function(error) {
+                console.error('Error:', error);
+                document.querySelector('.w-form-fail').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
