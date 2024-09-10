@@ -169,9 +169,22 @@
             }).then(function(response) {
                 form.style.display = 'none';
                 document.querySelector('.w-form-done').style.display = 'block';
+                
+                // Wait for 5 seconds, then reset the form
+                setTimeout(function() {
+                    form.reset();
+                    form.style.display = 'block';
+                    document.querySelector('.w-form-done').style.display = 'none';
+                    document.getElementById('email').focus();
+                }, 5000);
             }).catch(function(error) {
                 console.error('Error:', error);
                 document.querySelector('.w-form-fail').style.display = 'block';
+                
+                // If there's an error, also reset after 5 seconds
+                setTimeout(function() {
+                    document.querySelector('.w-form-fail').style.display = 'none';
+                }, 5000);
             });
         });
     </script>
